@@ -15,6 +15,7 @@ db.serialize(() => {
       id INTEGER PRIMARY KEY,
       username TEXT,
       password TEXT,
+      name TEXT,
       profileType TEXT
     )
   `);
@@ -34,6 +35,25 @@ db.serialize(() => {
       FOREIGN KEY (roleId) REFERENCES roles(id)
     )
   `);
+
+  // Autenticacao
+  app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    db.get('SELECT * FROM users WHERE username = ?', [username], async (err, user) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Erro ao autenticar usuário');
+      }
+
+      if (!user || !(await bcrypt.compare(password, user.password))) {
+        return res.status(401).send('Credenciais inválidas');
+      }
+
+      res.json({ message: 'Autenticação bem-sucedida' });
+    });
+  });
+
 });
 
 // Rotas
@@ -42,26 +62,27 @@ app.get('/', (req, res) => {
   res.send('Bem-vindo à API!');
 });
 
-app.post('/users', (req, res) => {
-  const { username, password, profileType } = req.body;
+app.post('/users', async (req, res) => {
+const { username, password, profileType, name } = req.body;
 
-  db.run(
-    'INSERT INTO users (username, password, profileType) VALUES (?, ?, ?)',
-    [username, password, profileType],
+const hashedPassword = await bcrypt.hash(password, 10);
+
+db.run(
+    'INSERT INTO users (username, password, name, profileType) VALUES (?, ?, ?, ?)',
+    [username, hashedPassword, profileType, name],
     (err) => {
-      if (err) {
+    if (err) {
         console.error(err.message);
         return res.status(500).send('Erro ao adicionar usuário');
-      }
-
-      res.send('Usuário adicionado com sucesso');
     }
-  );
+
+    res.send('Usuário adicionado com sucesso');
+    }
+);
 });
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
-
 
 module.exports = app;
