@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require('bcrypt');
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,8 +17,8 @@ db.serialize(() => {
       id INTEGER PRIMARY KEY,
       username TEXT,
       password TEXT,
-      name TEXT,
-      profileType TEXT
+      profileType TEXT,
+      name TEXT
     )
   `);
 
@@ -68,7 +70,7 @@ const { username, password, profileType, name } = req.body;
 const hashedPassword = await bcrypt.hash(password, 10);
 
 db.run(
-    'INSERT INTO users (username, password, name, profileType) VALUES (?, ?, ?, ?)',
+    'INSERT INTO users (username, password, profileType, name) VALUES (?, ?, ?, ?)',
     [username, hashedPassword, profileType, name],
     (err) => {
     if (err) {
