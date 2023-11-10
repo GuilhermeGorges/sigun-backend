@@ -2,12 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+app.use(cors());
 
 const db = new sqlite3.Database('./database.db');
 
