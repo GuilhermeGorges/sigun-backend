@@ -45,7 +45,6 @@ router.post('/users', async (req, res) => {
 
       const userId = this.lastID;
 
-      // Associando usuários aos papéis padrão
       const roleId = await getRoleId(profileType);
       if (roleId) {
         db.run('INSERT INTO user_roles (userId, roleId) VALUES (?, ?)', userId, roleId);
@@ -54,6 +53,19 @@ router.post('/users', async (req, res) => {
       res.send('Usuário adicionado com sucesso');
     }
   );
+});
+
+// obtendo funcoes usuario
+router.get('/functions/:roleName', async (req, res) => {
+  const { roleName } = req.params;
+
+  try {
+    const functions = await getFunctionsByRole(roleName);
+    res.json({ functions });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 module.exports = router;
