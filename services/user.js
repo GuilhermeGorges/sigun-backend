@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { db, getRoleId, getRoles } = require('./../entities/entities');
+const { db, getRoleId, getRoles, getFunctionsByRole } = require('./../entities/entities');
 
 
 // autenticacao
@@ -18,7 +18,14 @@ router.post('/login', async (req, res) => {
       return res.status(401).send('Credenciais inválidas');
     }
 
-    res.json({ message: 'Autenticação bem-sucedida' });
+    res.json({
+      message: 'Autenticação bem-sucedida',
+      user: {
+        username: user.username,
+        profileType: user.profileType,
+        name: user.name,
+      },
+    });
   });
 });
 
@@ -56,6 +63,7 @@ router.post('/users', async (req, res) => {
 });
 
 // obtendo funcoes usuario
+
 router.get('/functions/:roleName', async (req, res) => {
   const { roleName } = req.params;
 
