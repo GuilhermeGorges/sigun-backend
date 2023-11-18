@@ -76,4 +76,43 @@ router.get('/functions/:roleName', async (req, res) => {
   }
 });
 
+// exclusao usuario
+router.delete('/users/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  db.run('DELETE FROM users WHERE id = ?', [userId], async function (err) {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Erro ao excluir usuário');
+    }
+
+    res.send('Usuário excluído com sucesso');
+  });
+});
+
+// listagem usuarios filtrando pelo tipo
+router.get('/users', async (req, res) => {
+  const { profileType } = req.query;
+
+  let query = 'SELECT * FROM users';
+
+  if (profileType) {
+    const roles = getRoles();
+    if (!roles.includes(profileType.trim())) {
+      return res.status(400).send('O tipo de perfil informado é inválido.');
+    }
+    query += ' WHERE profileType = ?';
+  }
+
+  db.all(query, [profileType], async function (err, users) {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Erro ao obter lista de usuários');
+    }
+
+    res.json({ users });
+  });
+});
+
+
 module.exports = router;
