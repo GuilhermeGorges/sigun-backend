@@ -65,7 +65,7 @@ async function generateFunctionsToRoles(db) {
   const roleName = 'ADMINISTRACAO';
 
   const functionsToAdd = [
-    { functionName: 'Função 1', icon: 'barschart' },
+    { functionName: 'Função 1', icon: 'user' },
     { functionName: 'Função 2', icon: 'mail' },
     { functionName: 'Função 3', icon: 'laptop' },
     { functionName: 'Função 4', icon: 'home' },
@@ -75,20 +75,16 @@ async function generateFunctionsToRoles(db) {
     { functionName: 'Função 8', icon: 'setting' },
   ];
 
-  const results = await Promise.all(
-    functionsToAdd.map(async ({ functionName, icon }) => {
-      const existingFunctions = await getFunctionsByRole(roleName);
-      const functionExists = existingFunctions.some((func) => func.functionName === functionName);
+  for (const { functionName, icon } of functionsToAdd) {
+    const existingFunctions = await getFunctionsByRole(roleName);
+    const functionExists = existingFunctions.some((func) => func.functionName === functionName);
 
-      if (!functionExists) {
-        return addFunctionToRole(roleName, functionName, icon);
-      }
-    })
-  );
+    if (!functionExists) {
+      await addFunctionToRole(roleName, functionName, icon);
+    }
+  }
 
-  const allAddedSuccessfully = results.every((result) => result);
-
-  return allAddedSuccessfully;
+  return true;
 }
 
 async function getExistingRoles() {
