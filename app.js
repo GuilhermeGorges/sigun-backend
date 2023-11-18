@@ -11,6 +11,9 @@ app.use(cors());
 
 app.use("/user", user);
 
+app.get('/ping', (req, res) => {
+  res.send('pong 🏓')
+})
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
