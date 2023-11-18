@@ -21,7 +21,7 @@ app.listen(PORT, (err, res) => {
         console.log(err)
         return res.status(500).send(err.message)
     } else {
-        console.log('[INFO] Server Running on port:', port)
+        console.log('[INFO] Server Running on PORT:', PORT)
     }
 })
 
