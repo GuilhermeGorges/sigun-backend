@@ -61,21 +61,38 @@ async function generateRoles(db) {
   roleInsert.finalize();
 }
 
-async function generateFunctionsToRoles(db) {
-  const roleName = 'ADMINISTRACAO';
-
+async function generateFunctionsToRoles() {
   const functionsToAdd = [
-    { functionName: 'Função 1', icon: 'user' },
-    { functionName: 'Função 2', icon: 'mail' },
-    { functionName: 'Função 3', icon: 'laptop' },
-    { functionName: 'Função 4', icon: 'home' },
-    { functionName: 'Função 5', icon: 'star' },
-    { functionName: 'Função 6', icon: 'save' },
-    { functionName: 'Função 7', icon: 'team' },
-    { functionName: 'Função 8', icon: 'setting' },
+    { roleName : 'ADMINISTRACAO', functionName: 'Cadastro de Usuários', icon: 'addusergroup' },
+    { roleName : 'ADMINISTRACAO', functionName: 'E-mail', icon: 'mail' },
+    { roleName : 'ADMINISTRACAO', functionName: 'Matrículas', icon: 'laptop' },
+    { roleName : 'ADMINISTRACAO', functionName: 'Pagamentos', icon: 'bank' },
+    { roleName : 'ADMINISTRACAO', functionName: 'Registros Acadêmicos', icon: 'save' },
+    { roleName : 'ADMINISTRACAO', functionName: 'Financeiro', icon: 'wallet' },
+    { roleName : 'ADMINISTRACAO', functionName: 'Perfil', icon: 'user' },
+    { roleName : 'ADMINISTRACAO', functionName: 'Biblioteca', icon: 'book' },
+    { roleName : 'ADMINISTRACAO', functionName: 'Auditoria', icon: 'eyeo' },
+    { roleName : 'ADMINISTRACAO', functionName: 'Configurações', icon: 'setting' },
+    
+    { roleName : 'PROFESSOR', functionName: 'Sala de Aula', icon: 'solution1' },
+    { roleName : 'PROFESSOR', functionName: 'Cronogama de Aulas', icon: 'calendar' },
+    { roleName : 'PROFESSOR', functionName: 'Atividades Acadêmicas', icon: 'form' },
+    { roleName : 'PROFESSOR', functionName: 'E-mail', icon: 'mail' },
+    { roleName : 'PROFESSOR', functionName: 'Perfil', icon: 'user' },
+    { roleName : 'PROFESSOR', functionName: 'Biblioteca', icon: 'book' },
+    { roleName : 'PROFESSOR', functionName: 'Configurações', icon: 'setting' },
+
+    
+    { roleName : 'ALUNO', functionName: 'Sala de Aula', icon: 'solution1' },
+    { roleName : 'ALUNO', functionName: 'Avaliações', icon: 'edit' },
+    { roleName : 'ALUNO', functionName: 'E-mail', icon: 'mail' },
+    { roleName : 'ALUNO', functionName: 'Perfil', icon: 'user' },
+    { roleName : 'ALUNO', functionName: 'Estágio', icon: 'contacts' },
+    { roleName : 'ALUNO', functionName: 'Biblioteca', icon: 'book' },
+    { roleName : 'ALUNO', functionName: 'Configurações', icon: 'setting' },
   ];
 
-  for (const { functionName, icon } of functionsToAdd) {
+  for (const { roleName, functionName, icon } of functionsToAdd) {
     const existingFunctions = await getFunctionsByRole(roleName);
     const functionExists = existingFunctions.some((func) => func.functionName === functionName);
 
@@ -86,6 +103,7 @@ async function generateFunctionsToRoles(db) {
 
   return true;
 }
+
 
 async function getExistingRoles() {
   return new Promise((resolve) => {
