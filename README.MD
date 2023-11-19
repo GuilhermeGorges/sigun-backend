@@ -37,7 +37,7 @@ Backend do projeto [sigun](https://github.com/GuilhermeGorges/sigun)
 
 - Clone o repositório
 - Instale as dependências com `npm i`
-- Inicie a backend com `npm run`
+- Inicie a backend com `npm start`
 
 Agora faça os passos do [front-end](https://github.com/GuilhermeGorges/sigun) para executar a aplicação.
 Ou execute as requisições ao backend via [postmann](https://www.postman.com/).
