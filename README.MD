@@ -27,11 +27,11 @@ Backend do projeto [sigun](https://github.com/GuilhermeGorges/sigun)
 
 ## 🔖 Endpoints
 
- - Post /login <- Autenticacao
- - Post /users <- Criacao de usuários
- - Get /functions/:roleName <- Obter funções do tipo de perfil
- - Delete /users/:userId <- Exclusão de usuários
- - Get /users/:excludeUserId <- Listar usuarios, excluindo o solicitante
+ - Post /login - Autenticacao
+ - Post /users - Criacao de usuários
+ - Get /functions/:roleName - Obter funções do tipo de perfil
+ - Delete /users/:userId - Exclusão de usuários
+ - Get /users/:excludeUserId - Listar usuarios, excluindo o solicitante
 
 ## :boom: Como executar
 
