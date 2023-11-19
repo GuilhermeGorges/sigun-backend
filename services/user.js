@@ -21,6 +21,7 @@ router.post('/login', async (req, res) => {
     res.json({
       message: 'Autenticação bem-sucedida',
       user: {
+        id: user.id,
         username: user.username,
         profileType: user.profileType,
         name: user.name,
@@ -91,20 +92,12 @@ router.delete('/users/:userId', async (req, res) => {
 });
 
 // listagem usuarios filtrando pelo tipo
-router.get('/users', async (req, res) => {
-  const { profileType } = req.query;
+router.get('/users/:excludeUserId', async (req, res) => {
+  const { excludeUserId } = req.params;
 
-  let query = 'SELECT * FROM users';
+  let query = 'SELECT * FROM users WHERE id <> ?';
 
-  if (profileType) {
-    const roles = getRoles();
-    if (!roles.includes(profileType.trim())) {
-      return res.status(400).send('O tipo de perfil informado é inválido.');
-    }
-    query += ' WHERE profileType = ?';
-  }
-
-  db.all(query, [profileType], async function (err, users) {
+  db.all(query, [excludeUserId], async function (err, users) {
     if (err) {
       console.error(err.message);
       return res.status(500).send('Erro ao obter lista de usuários');
@@ -113,6 +106,5 @@ router.get('/users', async (req, res) => {
     res.json({ users });
   });
 });
-
 
 module.exports = router;
