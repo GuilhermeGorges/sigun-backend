@@ -25,9 +25,13 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 Backend do projeto [sigun](https://github.com/GuilhermeGorges/sigun)
 
-## 🔖 Layout
+## 🔖 Endpoints
 
-Você pode visualizar o layout do projeto através [desse link](https://www.figma.com/file/YornGTzkkOesqn62DlP52f/PI---Grupo-04?type=design&node-id=0-1&mode=design). É necessário ter conta no [Figma](http://figma.com/) para acessá-lo.
+ - Post /login <- Autenticacao
+ - Post /users <- Criacao de usuários
+ - Get /functions/:roleName <- Obter funções do tipo de perfil
+ - Delete /users/:userId <- Exclusão de usuários
+ - Get /users/:excludeUserId <- Listar usuarios, excluindo o solicitante
 
 ## :boom: Como executar
 
